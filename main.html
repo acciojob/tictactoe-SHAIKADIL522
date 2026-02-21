@@ -2,14 +2,35 @@
 <html>
 <head>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .cell {
+      width: 100px;
+      height: 100px;
+      min-height: 100px;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 5px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
+
     <div id="setup">
       <input type="text" id="player1" placeholder="Player 1 Name" />
       <input type="text" id="player2" placeholder="Player 2 Name" />
       <button id="submit">Submit</button>
     </div>
+
     <div id="game" style="display:none;">
       <h1>Tic Tac Toe</h1>
       <div class="message"></div>
@@ -25,6 +46,7 @@
         <div class="cell" id="9"></div>
       </div>
     </div>
+
   </div>
   <script type="text/javascript" src="./script.js"></script>
 </body>
