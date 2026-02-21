@@ -1,59 +1,60 @@
 document.getElementById("submit").addEventListener("click", function () {
-  // Step 1: Get player names
-  const player1 = document.getElementById("player-1").value.trim();
-  const player2 = document.getElementById("player-2").value.trim();
+  // Read player names using correct IDs (no hyphen)
+  const player1 = document.getElementById("player1").value.trim();
+  const player2 = document.getElementById("player2").value.trim();
 
-  if (!player1 || !player2) return; // do nothing if names are empty
+  if (!player1 || !player2) return;
 
-  // Step 2: Hide setup, show game
+  // Hide setup form, show game board
   document.getElementById("setup").style.display = "none";
   document.getElementById("game").style.display = "block";
 
-  // Step 3: Set initial message
+  // Show first player's turn
   const message = document.querySelector(".message");
   message.textContent = `${player1}, you're up`;
 
-  // Step 4: Track state
+  // Game state
   let currentPlayer = 1;
   let gameOver = false;
-  const board = Array(10).fill(""); // index 1-9
+  const board = Array(10).fill(""); // using index 1-9
 
-  // Winning combinations
+  // All 8 possible winning combinations
   const winCombos = [
     [1, 2, 3],
     [4, 5, 6],
-    [7, 8, 9], // rows
+    [7, 8, 9],
     [1, 4, 7],
     [2, 5, 8],
-    [3, 6, 9], // columns
+    [3, 6, 9],
     [1, 5, 9],
-    [3, 5, 7], // diagonals
+    [3, 5, 7],
   ];
 
-  // Step 5: Add click listener to each cell
+  // Attach click handler to all 9 cells
   for (let i = 1; i <= 9; i++) {
     document.getElementById(String(i)).addEventListener("click", function () {
-      if (gameOver) return;           // game already won
-      if (board[i] !== "") return;    // cell already filled
+      if (gameOver) return;        // stop if game already won
+      if (board[i] !== "") return; // stop if cell already taken
 
-      // Fill the cell
       const symbol = currentPlayer === 1 ? "x" : "o";
       board[i] = symbol;
       this.textContent = symbol;
 
-      // Check for winner
-      const name = currentPlayer === 1 ? player1 : player2;
+      const currentName = currentPlayer === 1 ? player1 : player2;
+
+      // Check if current player has won
       const won = winCombos.some(
-        ([a, b, c]) => board[a] === symbol && board[b] === symbol && board[c] === symbol
+        ([a, b, c]) =>
+          board[a] === symbol && board[b] === symbol && board[c] === symbol
       );
 
       if (won) {
-        message.textContent = `${name} congratulations you won!`;
+        message.textContent = `${currentName} congratulations you won!`;
         gameOver = true;
         return;
       }
 
-      // Switch player
+      // Switch to next player
       currentPlayer = currentPlayer === 1 ? 2 : 1;
       const nextName = currentPlayer === 1 ? player1 : player2;
       message.textContent = `${nextName}, you're up`;
